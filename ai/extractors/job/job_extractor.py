@@ -23,8 +23,6 @@ from typing import Dict, Any
 
 # Import specialized extractors
 from .certification_extractor import JobCertificationExtractor
-from .education_extractor import JobEducationExtractor
-from .experience_extractor import JobExperienceExtractor
 from .language_extractor import JobLanguageExtractor
 from .skills_extractor import JobSkillExtractor
 
@@ -43,8 +41,6 @@ class JobExtractor:
 
     def __init__(self):
         self.cert_extractor = JobCertificationExtractor()
-        self.edu_extractor = JobEducationExtractor()
-        self.exp_extractor = JobExperienceExtractor()
         self.lang_extractor = JobLanguageExtractor()
         self.skill_extractor = JobSkillExtractor()
 
@@ -60,8 +56,6 @@ class JobExtractor:
         """
         return {
             "Certifications": self.cert_extractor.extract(text),
-            "Education": self.edu_extractor.extract(text),
-            "Experience": self.exp_extractor.extract(text),
             "Skills": self.skill_extractor.extract(text),
             "Languages": self.lang_extractor.extract(text)
         }

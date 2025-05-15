@@ -17,15 +17,9 @@ varied resume formats reliably.
 
 Returns:
     A structured dictionary containing:
-        - "Email": str or None
-        - "Phone": str or None
-        - "Links": list or dict
         - "Skills": List[str]
-        - "Projects": List[Dict[str, Any]]
-        - "Experience": List[Dict[str, Any]]
         - "Certifications": List[str]
         - "Languages": List[str]
-        - "Interests": List[str]
 
 Typical Use Cases:
     - Resume parsing for ATS systems
@@ -37,14 +31,8 @@ Typical Use Cases:
 
 from typing import Dict, Any, Optional
 
-from .skiils_extractor import SkillExtractor
-from .email_extractor import EmailExtractor
-from .phone_extractor import PhoneExtractor
-from .links_extractor import LinkExtractor
-from .projects_extractor import ProjectExtractor
-from .experience_extractor import ExperienceExtractor
+from .skills_extractor import SkillExtractor
 from .certification_extractor import CertificationExtractor
-from .hobbies_extractor import InterestExtractor
 from .language_extractor import LanguageExtractor
 
 
@@ -66,31 +54,16 @@ class ResumeExtractor:
 
     Returns (parsed structure):
         {
-            "Email": str,
-            "Phone": str,
-            "Links": List[str] or Dict[str, List[str]],
             "Skills": List[str],
-            "Projects": List[Dict[str, str]],
-            "Experience": List[Dict[str, str]],
             "Certifications": List[str],
             "Languages": List[str],
-            "Interests": List[str]
         }
         
     """
 
     def __init__(self):
         self.skill_extractor = SkillExtractor()
-        self.email_extractor = EmailExtractor()
-        self.phone_extractor = PhoneExtractor()
-        self.link_extractor = LinkExtractor()
-        self.project_extractor = ProjectExtractor(
-            known_skills=self.skill_extractor.skill_set["Programming Languages"],
-            extract_skills_fn=lambda text, skills: self.skill_extractor.extract_skills(text, return_freq=False)
-        )
-        self.experience_extractor = ExperienceExtractor()
         self.certification_extractor = CertificationExtractor()
-        self.interest_extractor = InterestExtractor()
         self.language_extractor = LanguageExtractor()
 
     def parse(self, text: str, classify_links: bool = True) -> Dict[str, Optional[Any]]:
@@ -105,15 +78,9 @@ class ResumeExtractor:
             Dict[str, Optional[Any]]: Parsed resume content.
         """
         return {
-            "Email": self.email_extractor.extract(text),
-            "Phone": self.phone_extractor.extract(text),
-            "Links": self.link_extractor.extract(text, classify=classify_links),
             "Skills": self.skill_extractor.extract_skills(text),
-            "Projects": self.project_extractor.extract(text),
-            "Experience": self.experience_extractor.extract(text),
             "Certifications": self.certification_extractor.extract(text),
             "Languages": self.language_extractor.extract(text),
-            "Interests": self.interest_extractor.extract(text)
         }
         
 
