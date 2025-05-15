@@ -51,15 +51,22 @@ class JobCertificationExtractor:
             "Adobe Certified", "PMP", "PRINCE2", "Coursera", "Udemy", "edX", "DataCamp", "Trailhead",
             "IBM Data Science", "TensorFlow Developer", "Deep Learning Specialization", "Salesforce Certified",
             "Kubernetes Mastery", "AI For Everyone", "OCI Architect", "Google Cloud Professional",
-            "Microsoft Azure Fundamentals", "Certified Kubernetes Administrator"
+            "Microsoft Azure Fundamentals", "Certified Kubernetes Administrator",
+            # Add Power Platform certifications
+            "PL-100", "Power Platform App Maker",
+            "PL-200", "Power Platform Functional Consultant",
+            "PL-400", "Power Platform Developer",
+            "PL-600", "Power Platform Solution Architect"
         ]
 
-        self.fallback_pattern = re.compile(
-            r"(cert(ification|ified)|cert\.|badge|exam|track|specialization|credential|training|academy|licensed)",
+        # Pattern for certification codes like PL-100, PL-200, etc.
+        self.cert_code_pattern = re.compile(r'\b(PL-\d{3})\b')
+        
+        # Pattern for certification names
+        self.cert_name_pattern = re.compile(
+            r'(?:certified|certification|cert\.|badge|exam|track|specialization|credential|training|academy|licensed)',
             re.IGNORECASE
         )
-
-        self.acronym_pattern = re.compile(r'\b(AZ-\d{3}|CKA|CKAD|CSM|PMP|CCNA|OCI|CKS|ITIL|CISSP)\b')
 
     def extract(self, text: str) -> List[str]:
         """
@@ -69,33 +76,34 @@ class JobCertificationExtractor:
             text (str): The full job description content.
 
         Returns:
-            List[str]: A sorted list of deduplicated certifications or keywords found.
+            List[str]: A sorted list of deduplicated certifications found.
         """
-        lines = [line.strip("•-–—* ") for line in text.split('\n') if line.strip()]
         results = set()
-
+        
+        # Split text into lines and process each line
+        lines = [line.strip() for line in text.split('\n') if line.strip()]
+        
         for line in lines:
-            normalized = re.sub(r'[^\w\s\-#@.:/()]', '', line).strip()
-            matched = False
+            # Look for certification codes
+            cert_codes = self.cert_code_pattern.findall(line)
+            if cert_codes:
+                results.update(cert_codes)
+                continue
 
-            # 1. Match known certs
+            # Look for known certifications
             for cert in self.known_certs:
-                if cert.lower() in normalized.lower():
+                if cert.lower() in line.lower():
                     results.add(cert)
-                    matched = True
                     break
 
-            # 2. Match common acronyms
-            if not matched:
-                acronyms = self.acronym_pattern.findall(normalized)
-                results.update(acronyms)
-                matched = bool(acronyms)
+            # Look for lines containing certification-related keywords
+            if self.cert_name_pattern.search(line):
+                # Clean up the line and add it if it's not too long
+                cleaned = re.sub(r'[^\w\s\-#@.:/()]', '', line).strip()
+                if len(cleaned) < 100:  # Avoid adding entire paragraphs
+                    results.add(cleaned)
 
-            # 3. Match general fallback cert/training/badge terms
-            if not matched and self.fallback_pattern.search(normalized):
-                results.add(line)
-
-        return sorted(results)
+        return sorted(list(results))
 
 
 if __name__ == "__main__":
@@ -104,6 +112,7 @@ if __name__ == "__main__":
     Preferred: AWS Certified Solutions Architect, Azure Fundamentals (AZ-900), or Google Cloud Professional.
     Bonus if you're a Certified Kubernetes Administrator (CKA) or have completed Coursera training.
     PMP certification is a plus.
+    Required: PL-100, PL-200 certifications.
     """
 
     extractor = JobCertificationExtractor()
