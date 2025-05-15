@@ -1,0 +1,54 @@
+# =========================
+# CORE BACKEND (FastAPI)
+# =========================
+fastapi==0.110.0
+uvicorn[standard]==0.29.0
+pydantic==2.6.4
+python-multipart==0.0.9
+email-validator==2.1.1
+
+# =========================
+# AGENT + PROMPT ORCHESTRATION
+# =========================
+openai==1.18.0
+tiktoken==0.6.0
+langchain==0.1.14     # Optional if using chains or tool abstraction
+python-dotenv==1.0.1
+
+# =========================
+# ANALYZER & SCORING
+# =========================
+sentence-transformers==2.2.2
+faiss-cpu==1.7.4                  # Or faiss-gpu for CUDA support
+xgboost==2.0.3
+keybert==0.7.0
+scikit-learn==1.3.2
+spacy==3.7.2
+en-core-web-sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.0/en_core_web_sm-3.7.0.tar.gz
+
+# =========================
+# PDF / DOCX Parsing
+# =========================
+pdfplumber==0.10.3
+PyMuPDF==1.23.22
+python-docx==1.1.0
+unstructured==0.11.0
+
+# =========================
+# UTILITIES & VECTORIZING
+# =========================
+nltk==3.8.1
+joblib==1.4.0
+pandas==2.2.2
+numpy==1.26.4
+scipy==1.12.0
+
+# =========================
+# TESTING & DEV TOOLS
+# =========================
+pytest==8.1.1
+ipykernel==6.29.3
+jupyterlab==4.1.6
+black==24.3.0
+mypy==1.9.0
+ruff==0.3.5

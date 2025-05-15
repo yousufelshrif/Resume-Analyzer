@@ -1,0 +1,79 @@
+# 1. Virtual Environment
+environments/
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+
+# 2. Environment Variables 
+
+# 3. Logs & Debugging Files
+
+venv/
+*.log
+*.sqlite3
+*.db
+*.pid
+nohup.out
+debug.log
+
+# 4. AI Model Files & Large Data
+
+ai/models/
+ai/__pycache__/
+ai/scripts/__pycache__/
+*.h5
+*.pt
+*.pth
+*.pkl
+*.joblib
+*.onnx
+*.npy
+*.npz
+*.csv
+*.tsv
+
+# 5. FastAPI & Backend Caches
+
+backend/__pycache__/
+backend/tests/__pycache__/
+backend/migrations/
+backend/static/
+backend/media/
+
+# 6. Docker & Deployment
+
+docker-compose.override.yml
+deployment/dev/docker-compose.dev.yml
+deployment/prod/docker-compose.prod.yml
+deployment/prod/gunicorn.conf.py
+deployment/.env.*
+
+# 7. IDE & Editor Files (VSCode, PyCharm, JetBrains, etc.)
+
+.vscode/
+.idea/
+*.iml
+*.swp
+*.swo
+.DS_Store
+
+# 8. Compiled Files & Build Artifacts
+
+*.so
+*.dll
+*.a
+*.lib
+*.o
+*.out
+*.exe
+dist/
+build/
+*.egg-info/
+
+# 9. Temporary & Cache Files
+
+tmp/
+temp/
+cache/
+.vercel
