@@ -70,4 +70,4 @@ class LanguageExtractor:
             if re.search(pattern, lower_text):
                 results.add(lang)
 
-        return sorted(results) if results else None
+        return sorted(results) if results else []

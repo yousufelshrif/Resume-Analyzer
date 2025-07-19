@@ -10,8 +10,8 @@ if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
 # Import extractors
-from ai.extractors.resume.resume_extractor import ResumeExtractor
-from ai.extractors.job.job_extractor import JobExtractor
+from extractors.resume.resume_extractor import ResumeExtractor
+from extractors.job.job_extractor import JobExtractor
 
 # Load SBERT model once at the beginning
 sbert_model = SentenceTransformer('all-MiniLM-L6-v2')

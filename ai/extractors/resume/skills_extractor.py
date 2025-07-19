@@ -132,4 +132,4 @@ class SkillExtractor:
         elif return_freq:
             return dict(sorted(skills_found.items(), key=lambda x: -x[1]))
         else:
-            return sorted(skills_found.keys()) if skills_found else None
+            return sorted(skills_found.keys()) if skills_found else []
